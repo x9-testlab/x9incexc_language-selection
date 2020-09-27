@@ -5,7 +5,8 @@
 ## Table of contents
 
 - [Introduction](#introduction)
-- [Languages, projects, pros & cons](#languages-projects-pros--cons)
+- [The repos](#the-repos)
+- [Languages, pros & cons](#languages-pros--cons)
 	- [Bash](#bash)
 	- [C# (dotnet core)](#c-dotnet-core)
 	- [C++ 17](#c-17)
@@ -15,13 +16,22 @@
 
 ## Introduction
 
-The goal with these four related repositories, is to use a relatively simple project objective (produce a list of filtered files for consumption by programs that provide something like a `--files-from` command-line option), as a testbed to determine which programming language is most suitable for a broader family of more complex future products.
+The goal with these four related repositories, is to use a relatively simple project objective (produce a list of filtered files for consumption by programs that provide something like a `--files-from` command-line option), as a testbed to determine which programming language is most suitable for a broader family of more complex and related future products. Not all (or possibly any) projects are or possibly ever will be feature complete, though some more so than others. (Which is not the goal.) If any do make it to feature complete, they'll be migrated out of [x9-testlab](https://github.com/x9-testlab) and into [Jim Collier](https://github.com/jim-collier)'s main profile.
 
-## Languages, projects, pros & cons
+## The repos
+
+| Language | Repo |
+|:---|:---|
+| Bash | [x9incexc-bash](https://github.com/x9-testlab/x9incexc-bash) |
+| C# (dotnet core) | [x9incexc-cs](https://github.com/x9-testlab/x9incexc-cs) |
+| C++ 17 | [x9incexc-cpp](https://github.com/x9-testlab/x9incexc-cpp) |
+| Go | [x9incexc-go](https://github.com/x9-testlab/x9incexc-go) |
+
+## Languages, pros & cons
 
 ### Bash
 
-- Project: [x9incexc-bash](https://github.com/x9-testlab/x9incexc-bash)
+- Repo: [x9incexc-bash](https://github.com/x9-testlab/x9incexc-bash)
 - Overall best suited for:
 	- Task automation
 	- Small but serious system tools that can be maintained in a single file
@@ -32,7 +42,7 @@ The goal with these four related repositories, is to use a relatively simple pro
 	- Fully cross-platform programs
 	- Modular programs
 - Pros related to this project:
-	- [I](https://github.com/jim-collier) am very proficient in Bash, even as limited as it is, and have a well-established toolkit.
+	- I ([Jim](https://github.com/jim-collier)) am very proficient in Bash, even as limited as it is, and have a well-established toolkit.
 	- Bash projects tend to be much simpler to maintain, by inherently relying heavily on high-level POSIX tools to do all of the heavy lifting.
 	- As a result of the previous axiom, Bash scripts, if thoughtfully designed, paradoxically tend to perform well.
 	- Bash script can even use Sqlite3 CLI interface without much fuss or complexity, though that often necessarily involves iteration - something Bash is very slow at. So its far better to stick with well-established, long-term API-stable, universally-installed POSIX tools. And if it just can't be done with POSIX tools (something surprisingly hard to do), then Bash shouldn't really be considered.
@@ -56,22 +66,29 @@ The goal with these four related repositories, is to use a relatively simple pro
 
 ### C# (dotnet core)
 
-- Project: [x9incexc-cs](https://github.com/x9-testlab/x9incexc-cs)
+- Repo: [x9incexc-cs](https://github.com/x9-testlab/x9incexc-cs)
 - Overall best suited for:
 - Overall not well-suited for:
 - Pros related to this project:
+	- I ([Jim](https://github.com/jim-collier)) am reasonably fluent in C#, so it's fairly quick and natural dev effort.
+	- Dotnet core C# performs well.
+	- Inherently cross-platform.
+	- Dotnet core C# can now be "compiled" to a single machine-cde executable requiring no runtime. (Or more specifically, no preinstalled runtime. It actually gets included in the executable.)
+	- With the right compile flags, dotnet core C# can compile to a single small executable that itself can run on any platform without modification - as long as the correct runtime environment is already installed.
 - Cons related to this project:
 - Contender?
 
 **Bottom line**:
 
-•[I](https://github.com/jim-collier) am reasonably fluent in C#, so it's fairly quick and natural dev effort. •C# performs really well. •Inherently cross-platform. •Can now "compile" to a single executable requiring no runtime. •With the right compile flags, can compile to a single small executable that itself can run on any platform without modification, as long as the correct runtime environment is already installed. | •There's no way to statically link Sqlite3 into an exe - it has to be already installed. (There are kludges that allow packing it in for runtime extraction, but it has to be the right one for the platform, and it's still not statically linked.) •The standard C# ADO-compatible Sqlite3 wrapper is currently broken, when it comes to compiling down to a single exe. •Single executables with runtime are huge, and actually self-extract to a temporary location before running. •Smaller executables that require pre-installed runtimes, are susceptible to almost certain bitrot in the long run. •**Many of these cons are individual deal-breakers for a project of this nature, which needs to be entirely self-contained and resistant to long-term bitrot.**
+	- •There's no way to statically link Sqlite3 into an exe; it has to be already installed. (There are kludges that allow packing it in the executable for runtime extraction, but it has to be the right one for the target platform, it's still not statically linked, and it's liable to trigger antivirus.)
+	- The standard C# ADO-compatible Sqlite3 wrapper is currently broken, when it comes to compiling down to a single exe, due to a collision between the compiler-generated x86 and x86-64 target folders.
+	- Single executables with the runtime built-in are huge, and actually self-extract to a temporary location before running. •Smaller executables that require pre-installed runtimes, are susceptible to almost certain bitrot in the long run. •**Many of these cons are individual deal-breakers for a project of this nature, which needs to be entirely self-contained and resistant to long-term bitrot.**
 
-[I](https://github.com/jim-collier) adore C#, especially now with dotnet core. But that doesn't mean it's the right tool for this job.
+I ([Jim](https://github.com/jim-collier)) adore C#, especially now with dotnet core. But that doesn't mean it's the right tool for this job.
 
 ### C++ 17
 
-- Project: [x9incexc-cpp](https://github.com/x9-testlab/x9incexc-cpp)
+- Repo: [x9incexc-cpp](https://github.com/x9-testlab/x9incexc-cpp)
 - Overall best suited for:
 - Overall not well-suited for:
 - Pros related to this project:
@@ -89,7 +106,7 @@ The goal with these four related repositories, is to use a relatively simple pro
 
 ### Go
 
-- Project: [x9incexc-go](https://github.com/x9-testlab/x9incexc-go)
+- Repo: [x9incexc-go](https://github.com/x9-testlab/x9incexc-go)
 - Overall best suited for:
 	- Rapid application development
 	- Single executables with no external runtime dependencies
@@ -122,7 +139,7 @@ The goal with these four related repositories, is to use a relatively simple pro
 	- Long-term or even medium-term resistance to bitrot
 		- OS support for older runtime libraries gets dropped, third-party library support (e.g. sqlite3) gets dropped, etc.
 - Pros related to this project:
-	- [I](https://github.com/jim-collier) am reasonably fluent in Python
+	- I ([Jim](https://github.com/jim-collier)) am reasonably fluent in Python
 	- Rapid prototyping and development
 	- Sqlite3 bindings
 	- Very easy to read and debug
