@@ -22,10 +22,12 @@ The goal with these four related repositories, is to use a relatively simple pro
 
 | Language | Repo |
 |:---|:---|
-| Bash | [x9incexc-bash](https://github.com/x9-testlab/x9incexc-bash) |
+| Bash             | [x9incexc-bash](https://github.com/x9-testlab/x9incexc-bash) |
 | C# (dotnet core) | [x9incexc-cs](https://github.com/x9-testlab/x9incexc-cs) |
-| C++ 17 | [x9incexc-cpp](https://github.com/x9-testlab/x9incexc-cpp) |
-| Go | [x9incexc-go](https://github.com/x9-testlab/x9incexc-go) |
+| C++ 17           | [x9incexc-cpp](https://github.com/x9-testlab/x9incexc-cpp) |
+| Go               | [x9incexc-go](https://github.com/x9-testlab/x9incexc-go) |
+| Python           | n/a |
+| Rust             | n/a|
 
 ## Languages, pros & cons
 
@@ -42,7 +44,7 @@ The goal with these four related repositories, is to use a relatively simple pro
 	- Fully cross-platform programs
 	- Modular programs
 - Pros related to this project:
-	- I ([Jim](https://github.com/jim-collier)) am very proficient in Bash, even as limited as it is, and have a well-established toolkit.
+	- [Original author](https://github.com/jim-collier) is proficient in Bash, even as limited as it is, and has a well-established toolkit.
 	- Bash projects tend to be much simpler to maintain, by inherently relying heavily on high-level POSIX tools to do all of the heavy lifting.
 	- As a result of the previous axiom, Bash scripts, if thoughtfully designed, paradoxically tend to perform well.
 	- Bash script can even use Sqlite3 CLI interface without much fuss or complexity, though that often necessarily involves iteration - something Bash is very slow at. So its far better to stick with well-established, long-term API-stable, universally-installed POSIX tools. And if it just can't be done with POSIX tools (something surprisingly hard to do), then Bash shouldn't really be considered.
@@ -70,21 +72,23 @@ The goal with these four related repositories, is to use a relatively simple pro
 - Overall best suited for:
 - Overall not well-suited for:
 - Pros related to this project:
-	- I ([Jim](https://github.com/jim-collier)) am reasonably fluent in C#, so it's fairly quick and natural dev effort.
+	- [Original author](https://github.com/jim-collier) is reasonably fluent in C#, so it's fairly quick and natural dev effort.
 	- Dotnet core C# performs well.
 	- Inherently cross-platform.
 	- Dotnet core C# can now be "compiled" to a single machine-cde executable requiring no runtime. (Or more specifically, no preinstalled runtime. It actually gets included in the executable.)
 	- With the right compile flags, dotnet core C# can compile to a single small executable that itself can run on any platform without modification - as long as the correct runtime environment is already installed.
 - Cons related to this project:
-- Contender?
+	- There's no way to statically link Sqlite3 into an exe; it has to be already installed at the system level. (There are kludges that allow packing it in the executable for runtime extraction, but it has to be the right one for the target platform, it's still not statically linked, and it's liable to trigger antivirus.)
+	- The standard C# ADO-compatible Sqlite3 wrapper is currently broken when it comes to compiling down to a single exe, due to a collision between the compiler-generated x86 and x86-64 target folders.
+	- Single executables with the runtime built-in are very large (and actually self-extract to a temporary location before running, behind the scenes).
+	- Smaller executables that require pre-installed runtimes, are susceptible to almost certain bitrot in the long run.
+- Contender? Yes, but lack of static linking, and runtime included in large executable, are big problems.
 
-**Bottom line**:
+**Bottom line**
 
-	- •There's no way to statically link Sqlite3 into an exe; it has to be already installed. (There are kludges that allow packing it in the executable for runtime extraction, but it has to be the right one for the target platform, it's still not statically linked, and it's liable to trigger antivirus.)
-	- The standard C# ADO-compatible Sqlite3 wrapper is currently broken, when it comes to compiling down to a single exe, due to a collision between the compiler-generated x86 and x86-64 target folders.
-	- Single executables with the runtime built-in are huge, and actually self-extract to a temporary location before running. •Smaller executables that require pre-installed runtimes, are susceptible to almost certain bitrot in the long run. •**Many of these cons are individual deal-breakers for a project of this nature, which needs to be entirely self-contained and resistant to long-term bitrot.**
+Many of these cons are individual deal-breakers for a project of this nature, which needs to be entirely self-contained and resistant to long-term bitrot.
 
-I ([Jim](https://github.com/jim-collier)) adore C#, especially now with dotnet core. But that doesn't mean it's the right tool for this job.
+That said, the ([original author](https://github.com/jim-collier)) adores C#, especially now with dotnet core. But that doesn't mean it's the right tool for this job.
 
 ### C++ 17
 
@@ -97,31 +101,32 @@ I ([Jim](https://github.com/jim-collier)) adore C#, especially now with dotnet c
 - Cons related to this project:
 - Contender?
 
-**Bottom line**:
-
+<!--
 •The ultimate in small footprint, speed, long-term maintainability, and long-term resistance to bitrot. •Easy to compile and statically link Sqlite3 as part of the build workflow. | What follows here is mostly opinion, but certainly not unique opinion: •Even with C++ 17, the language remains inscrutably arcane, anachronistic, and over-reliant on cryptic combinations of symbols rather than keywords, as syntax. •The investment in time to become an expert is daunting. •No one human - not even Stroustrup - can hold the entire language in one's head. •When even average C++ projects need a committee to decide and enforce what subset of C++ will be used and how, you know there may be a more fundamental problem suggesting that - while a language may be excellent - it may be too complex for human use. •Setting up the toolchain for C++ is always a bear. That should never be, say, 33% of a project effort. What build system? How to organize? What compiler? •Making that toolchain also be seamlessly cross-platform - especially including Windows - is a major headache. | All else being equal, C++ requires too much time fiddling with toolchain, cross-platform issues, mysterious syntax errors and other complexities of the language, and opportunities for leaks and segfaults. It's off the table.
+ -->
 
+**Bottom line**
 
- Same benefits as C# and CPP version (, but smaller, faster, more maintainable over a longer period of time, and has no external dependencies - not even sqlite3.
 
 ### Go
 
 - Repo: [x9incexc-go](https://github.com/x9-testlab/x9incexc-go)
 - Overall best suited for:
 	- Rapid application development
-	- Single executables with no external runtime dependencies
+	- Single small executables with no external runtime dependencies
+	- Very nice with C code and/or object files
+	- Can compile to myriad targets from any platform
 - Overall not well-suited for:
+	- Programmers with a strong OO background
 - Pros related to this project:
 	- Being "strongly opinionated" is a good thing for quickly learning a new language, as there's often only one idiomatic way of doing something, baked into the language.
-	- The entire language can be arguably held in the head of a single human being.
-	- Compiles to single small machine code executable with no preexisting runtime required.
-	- Can cross compile to different OSes, from one OS.
-	- Sqlite3 can be statically linked into the final binary.
-- Cons related to this project:
-	- "Traditional" (e.g. Java, C++, C#) OOP idioms don't work well in Rust.
-- Contender? Yes!
+	- The entire language can be arguably held in the head of a single human being. (At least, that specifically has been argued by others.)
+	- Sqlite3 can be statically linked into the final binary, with virtually no effort (just include the go-sqlite3 module).
+- Contender? Absolutely!
 
-**Bottom line**: Go is a promising contender for the crown. Time will tell if topples C#, which is already looking promising.
+**Bottom line**
+
+Go is a very promising contender for the crown. Time will tell if topples C#, which is already looking promising. Already, it is up and running with static compilation of sqlite3, and an args-parsing library.
 
 ### Python
 
@@ -139,7 +144,7 @@ I ([Jim](https://github.com/jim-collier)) adore C#, especially now with dotnet c
 	- Long-term or even medium-term resistance to bitrot
 		- OS support for older runtime libraries gets dropped, third-party library support (e.g. sqlite3) gets dropped, etc.
 - Pros related to this project:
-	- I ([Jim](https://github.com/jim-collier)) am reasonably fluent in Python
+	- The ([original author](https://github.com/jim-collier)) is reasonably fluent in Python
 	- Rapid prototyping and development
 	- Sqlite3 bindings
 	- Very easy to read and debug
@@ -147,10 +152,12 @@ I ([Jim](https://github.com/jim-collier)) adore C#, especially now with dotnet c
 - Cons related to this project:
 	- Dependency hell, especially involving "toolbox" code
 	- Correct runtime must be installed
-	- Guaranteed long-term bitrot
+	- All but guaranteed long-term bitrot
 - Contender? Absolutely not
 
-**Bottom line**: The myriad runtime and library dependencies - and resulting real-world, long-term bitrot issues of Python, make it a non-starter for this project. Furthermore the lack of a single-file, dependency-free machine code executable is also a problem. While "compilers" exist for Python, they only bundle up the runtime, are incredibly complex to get working, and somehow still usually requires the Python runtime to be installed.
+**Bottom line**
+
+The myriad runtime and library dependencies and toolbox management problems - and resulting real-world, long-term bitrot issues of Python - make it a non-starter for this particular project. Furthermore the lack of a single-file, dependency-free machine code executable is also a problem. While "compilers" exist for Python, they only bundle up the runtime, are incredibly complex to get working, and somehow still usually requires the Python runtime to be installed.
 
 ### Rust
 
@@ -171,4 +178,6 @@ Since Rust is not being seriously considered - mainly due to it's complex syntax
 	- "Traditional" (e.g. Java, C++, C#) OOP idioms don't work well in Rust.
 - Contender? No.
 
-**Bottom line**: Rust is too much of a departure from "traditional" OOP, and too sprawling of a new language, to make it worth it for this project. (There would need to be other requirements that Rust excels at, to make it worth the investment.)
+**Bottom line**
+
+Rust is too much of a departure from "traditional" OOP, and too sprawling of a new language, to make it worth it for this project. (There would need to be other requirements that Rust excels at, to make it worth the investment.)
